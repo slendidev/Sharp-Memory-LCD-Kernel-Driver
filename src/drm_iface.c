@@ -28,6 +28,7 @@
 #include <drm/drm_rect.h>
 #include <drm/drm_probe_helper.h>
 #include <drm/drm_simple_kms_helper.h>
+#include <drm/drm_fbdev_generic.h>
 
 #include "params_iface.h"
 #include "ioctl_iface.h"
@@ -391,6 +392,13 @@ static void sharp_memory_pipe_update(struct drm_simple_display_pipe *pipe,
 	if (drm_atomic_helper_damage_merged(old_state, state, &rect)) {
 		sharp_memory_fb_dirty(state->fb, &rect);
 	}
+}
+
+int drm_gem_simple_display_pipe_prepare_fb(
+	struct drm_simple_display_pipe *pipe,
+	struct drm_plane_state *plane_state
+) {
+	return drm_gem_plane_helper_prepare_fb(&pipe->plane, plane_state);
 }
 
 static const struct drm_simple_display_pipe_funcs sharp_memory_pipe_funcs = {
