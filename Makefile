@@ -25,8 +25,8 @@ install: sharp.ko sharp.dtbo
 	# Install device tree overlay
 	install -D -m 0644 sharp.dtbo /boot/overlays/
 	# Add configuration line if it wasn't already there
-	grep -qxF '$(BOOT_CONFIG_LINE)' /boot/config.txt \
-		|| echo '[all]\n$(BOOT_CONFIG_LINE)' >> /boot/config.txt
+	grep -qxF '$(BOOT_CONFIG_LINE)' /boot/firmware/config.txt \
+		|| echo '[all]\n$(BOOT_CONFIG_LINE)' >> /boot/firmware/config.txt
 	# Add auto-load module line if it wasn't already there
 	grep -qxF 'sharp' /etc/modules \
 		|| echo 'sharp' >> /etc/modules
@@ -37,7 +37,7 @@ uninstall:
 	# Remove auto-load module line and create a backup file
 	sed -i.save '/sharp/d' /etc/modules
 	# Remove configuration line and create a backup file
-	sed -i.save '/$(BOOT_CONFIG_LINE)/d' /boot/config.txt
+	sed -i.save '/$(BOOT_CONFIG_LINE)/d' /boot/firmware/config.txt
 	# Remove device tree overlay
 	rm -f /boot/overlays/sharp.dtbo
 
